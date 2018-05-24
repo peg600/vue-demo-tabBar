@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="wrapper" v-if="showList">
+    <div class="wrapper" >
       <ul class="list-wrapper">
-        <li class="list-item" v-for=""></li>
+        <li class="list-item" ></li>
       </ul>
     </div>
   </div>
@@ -15,7 +15,7 @@
         itemMessage:{
           type:Object
         },
-        showList
+        
       }
     }
 </script>
