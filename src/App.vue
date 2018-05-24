@@ -130,7 +130,7 @@ export default {
   },
   methods:{
     showList() {
-      this.$refs.footer.style.flex = 0+" "+100+"px";
+      this.$refs.footer.style.flex = 0+" "+50+"px";
       this.$refs.footer.style.marginBottom = -150+"px"
     },
     hideList() {
@@ -145,6 +145,7 @@ export default {
 </script>
 
 <style>
+
 html,body {
   height: 100%;
 }
@@ -169,4 +170,5 @@ p {
   background-color: aqua;
   flex:0 50px;
 }
+
 </style>

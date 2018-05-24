@@ -1,14 +1,13 @@
 <template>
   <div>
-    <div class="wrapper" v-if="showList">
+    <div class="wrapper" v-if="showList" ref="listContent">
       <ul class="list-wrapper">
-        <li class="list-item" v-for="(item,index) in itemMessage.goods">
-          <div class="content">
+        <li class="list-item" v-for="(item,index) in itemMessage.goods" ref="listItem">
+          <a class="content">
             <span class="item-name">{{item.name}}</span>
             <img :src="item.avatar" alt="item.name" class="item-img"
             height="30px" width="30px" >
-            <span class="item-price">{{item.price}}</span>
-          </div>
+          </a>
         </li>
       </ul>
     </div>
@@ -16,6 +15,9 @@
 </template>
 
 <script>
+
+    import BScroll from "better-scroll"
+
     export default {
       name: "list",
       props:{
@@ -26,7 +28,26 @@
           type:Boolean
         }
       },
+
+      watch:{
+        "itemMessage"() {
+          this.$nextTick(() => {
+            this._initScroll();
+          });
+        }
+      },
       
+      methods:{
+        _initScroll() {
+          if (!this.scroll) {
+            this.scroll = new BScroll(this.$refs.listContent, {
+              click: true
+            });
+          } else {
+            this.scroll.refresh();
+          }
+        },
+      }
     }
 </script>
 
@@ -35,6 +56,8 @@
     height: 300px;
     width: 100%;
     margin-top: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
     background-color: red;
     z-index: 10;
   }
@@ -42,10 +65,14 @@
   .list-wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10px;
   }
 
   .list-item {
+    text-align: center;
     list-style-type: none;
+    flex: 1 1 33.33%;
   }
 
 
