@@ -1,19 +1,18 @@
 <template>
   <div>
     <div class="wrapper" ref="itemWrapper">
-    <ul class="item-wrapper" v-if="items" ref="itemList">
-      <li class="item" v-for="(item_message,item,index) in items">
-        <div class="content" @click="showItemList(item_message)">
-          <span class="item-name" >{{item_message.message.name}}</span>
-          <img class="item-avatar" v-if="item_message.message.avatar"
+      <ul class="item-wrapper" v-if="items" ref="itemList">
+        <li class="item" v-for="(item_message,item,index) in items">
+          <div class="content" @click="showItemList(item_message)">
+            <span class="item-name" >{{item_message.message.name}}</span>
+            <img class="item-avatar" v-if="item_message.message.avatar"
                :src="item_message.message.avatar" height="20px" width="20px">
-        </div>
-      </li>
-    </ul>
+          </div>
+        </li>
+      </ul>
     </div>
-    <list></list>
+    <list :showList="showList" :itemMessage="itemMessage"></list>
   </div>
-
 </template>
 <script>
   import BScroll from "better-scroll"
@@ -34,7 +33,7 @@
       }
     },
     watch: {
-      'items'() {
+      "items"() {
         this.$nextTick(() => {
           this._initScroll();
         });
@@ -53,12 +52,12 @@
           let margin = 6;
           let itemWidth = (screenWidth-2*margin)/4;
           let width = (itemWidth + margin) * itemsArray.length - margin;    // 计算所有图片总宽度，即ul宽度
-          this.$refs.itemList.style.width = width + 'px';    // 为图片列表设置宽度，只有宽度大于容器才能滚动
+          this.$refs.itemList.style.width = width + "px";    // 为图片列表设置宽度，只有宽度大于容器才能滚动
           this.$nextTick(() => {
             if (!this.itemScroll) {
               this.itemScroll = new BScroll(this.$refs.itemWrapper, {
                 scrollX: true,                        // 横向滚动
-                eventPassthrough: 'vertical'          // 在横向滚动时忽略纵向滚动
+                eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
               });
             } else {
               this.itemScroll.refresh();
@@ -71,10 +70,13 @@
           this.showList = false;           // 若点击的是展示状态的tab，则取消展示状态并收起列表
           this.activeType = 0;
           this.itemMessage = {};
+          this.$emit("hide-list");
+          console.log(this.itemMessage,this.showList,this.activeType)
         }else{                              // 若点击非展示状态的tab，将其标记为展示中并弹出列表
           this.activeType = item_message.message.type;
           this.showList = true;
           this.itemMessage = item_message;          // 准备将itemMessage传给list组件
+          this.$emit("show-list");
           console.log(this.itemMessage,this.showList,this.activeType)
         }
       }

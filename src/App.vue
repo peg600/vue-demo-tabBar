@@ -17,6 +17,43 @@
          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
          "price":35
          },
+         hats":{
+         "message":{
+         "type":2,
+         "name":"帽子",
+         "avatar":"http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114"
+         },
+         "goods":[
+         {
+         "name":"帽子1",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":30
+         },
+         {
+         "name":"帽子2",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":31
+         },
+         {
+         "name":"帽子3",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":32
+         },
+         {
+         "name":"帽子4",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":33
+         },
+         {
+         "name":"帽子5",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":34
+         },
+         {
+         "name":"帽子6",
+         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+         "price":35
+         },
          {
          "name":"帽子7",
          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
@@ -63,12 +100,11 @@
          "avatar":"http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114"
          }
          },
-         "shoes":{
-         "message":{
+
        </p>
     </div>
-    <div class="footer">
-      <tabBar :items="items" v-if="this.items"></tabBar>
+    <div class="footer" ref="footer">
+      <tabBar :items="items" v-if="this.items" @show-list="showList" @hide-list="hideList"></tabBar>
     </div>
   </div>
 
@@ -92,6 +128,16 @@ export default {
       this.items = response.items;
     })
   },
+  methods:{
+    showList() {
+      this.$refs.footer.style.flex = 0+" "+100+"px";
+      this.$refs.footer.style.marginBottom = -150+"px"
+    },
+    hideList() {
+      this.$refs.footer.style.flex = 0+" "+50+"px";
+      this.$refs.footer.style.marginBottom = 0
+    }
+  },
   components:{
     tabBar
   }
@@ -99,6 +145,10 @@ export default {
 </script>
 
 <style>
+html,body {
+  height: 100%;
+}
+
 .wrapper {
   display: flex;
   width:100%;
