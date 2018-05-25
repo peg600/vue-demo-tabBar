@@ -103,9 +103,9 @@
 
        </p>
     </div>
-    <div class="footer" ref="footer">
-      <tabBar :items="items" v-if="this.items" @show-list="showList" @hide-list="hideList"></tabBar>
-    </div>
+
+      <tabBar :items="items" @show-list="showList" @hide-list="hideList"></tabBar>
+
   </div>
 
 </template>
@@ -130,12 +130,10 @@ export default {
   },
   methods:{
     showList() {
-      this.$refs.footer.style.flex = 0+" "+50+"px";
-      this.$refs.footer.style.marginBottom = -150+"px"
+
     },
     hideList() {
-      this.$refs.footer.style.flex = 0+" "+50+"px";
-      this.$refs.footer.style.marginBottom = 0
+      console.log("hide")
     }
   },
   components:{
@@ -148,13 +146,16 @@ export default {
 
 html,body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
-  display: flex;
+
+  position: relative;
   width:100%;
   min-height: 100%;
-  flex-direction: column;
+
 }
 
 p {
@@ -162,13 +163,10 @@ p {
 }
 
 .main {
-  flex:1;
+
   background-color: green;
 }
 
-.footer {
-  background-color: aqua;
-  flex:0 50px;
-}
+
 
 </style>

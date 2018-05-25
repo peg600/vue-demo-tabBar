@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tabBar-content" ref="tabBarContent">
     <div class="wrapper" ref="itemWrapper">
       <ul class="item-wrapper" v-if="items" ref="itemList">
         <li class="item" v-for="(item_message,item,index) in items">
@@ -71,13 +71,15 @@
           this.activeType = 0;
           this.itemMessage = {};
           this.$emit("hide-list");
-          console.log(this.itemMessage,this.showList,this.activeType)
+          this.$refs.tabBarContent.style.height = 50+"px";
+          console.log(this.itemMessage,this.showList,this.activeType);
         }else{                              // 若点击非展示状态的tab，将其标记为展示中并弹出列表
           this.activeType = item_message.message.type;
           this.showList = true;
           this.itemMessage = item_message;          // 准备将itemMessage传给list组件
           this.$emit("show-list");
-          console.log(this.itemMessage,this.showList,this.activeType)
+          this.$refs.tabBarContent.style.height = 300+"px";
+          console.log(this.itemMessage,this.showList,this.activeType);
         }
       }
     },
@@ -88,45 +90,54 @@
 </script>
 
 <style scoped>
-.wrapper {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-}
 
-.item-wrapper {
-  display: flex;
-  font-size: 0;
-  margin-top: 10px;
-  padding-left: 0;
-  box-sizing: border-box;
-}
+  .tabBar-content {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: aqua;
+  }
 
-.item {
-  flex:1;
-  height: 24px;
-  line-height: 24px;
-  color: #059;
-  font-size: 20px;
-  padding-right: 6px;
-  list-style-type: none;
-  border-right: solid red 1px;
-}
+  .wrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-.item:last-child {
-  margin-right: 0;
-  border-right: none;
-}
+  .item-wrapper {
+    display: flex;
+    font-size: 0;
+    margin-top: 10px;
+    padding-left: 0;
+    box-sizing: border-box;
+  }
 
-.content {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
+  .item {
+    flex:1;
+    height: 24px;
+    line-height: 24px;
+    color: #059;
+    font-size: 20px;
+    padding-right: 6px;
+    list-style-type: none;
+    border-right: solid red 1px;
+  }
 
-.item-name,.item-avatar {
-  display: inline-block;
-  vertical-align: middle;
-}
+  .item:last-child {
+    margin-right: 0;
+    border-right: none;
+  }
+
+  .content {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .item-name,.item-avatar {
+    display: inline-block;
+    vertical-align: middle;
+  }
 </style>

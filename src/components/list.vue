@@ -36,7 +36,7 @@
           });
         }
       },
-      
+
       methods:{
         _initScroll() {
           if (!this.scroll) {
@@ -53,13 +53,12 @@
 
 <style scoped>
   .wrapper {
-    height: 300px;
+    position: absolute;
     width: 100%;
-    margin-top: 10px;
+    margin-top: -250px;
     overflow: hidden;
     box-sizing: border-box;
     background-color: red;
-    z-index: 10;
   }
 
   .list-wrapper {
