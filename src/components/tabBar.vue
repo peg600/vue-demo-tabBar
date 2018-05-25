@@ -2,16 +2,17 @@
   <div class="tabBar-content" ref="tabBarContent">
     <div class="wrapper" ref="itemWrapper">
       <ul class="item-wrapper" v-if="items" ref="itemList">
-        <li class="item" v-for="(item_message,item,index) in items">
-          <div class="content" @click="showItemList(item_message)">
+        <li class="item" :class="{'active-item': activeType === item_message.message.type}" v-for="(item_message,item,index) in items"
+            @click="showItemList($event,item_message)">
+          <div class="content">
             <span class="item-name" >{{item_message.message.name}}</span>
             <img class="item-avatar" v-if="item_message.message.avatar"
                :src="item_message.message.avatar" height="20px" width="20px">
           </div>
         </li>
       </ul>
+      <list :showList="showList" :itemMessage="itemMessage"></list>
     </div>
-    <list :showList="showList" :itemMessage="itemMessage"></list>
   </div>
 </template>
 <script>
@@ -65,7 +66,7 @@
           });
         }
       },
-      showItemList(item_message) {
+      showItemList(e,item_message) {
         if(this.activeType && this.activeType === item_message.message.type) {
           this.showList = false;           // 若点击的是展示状态的tab，则取消展示状态并收起列表
           this.activeType = 0;
@@ -76,7 +77,7 @@
         }else{                              // 若点击非展示状态的tab，将其标记为展示中并弹出列表
           this.activeType = item_message.message.type;
           this.showList = true;
-          this.itemMessage = item_message;          // 准备将itemMessage传给list组件
+          this.itemMessage = item_message;// 准备将itemMessage传给list组件
           this.$emit("show-list");
           this.$refs.tabBarContent.style.height = 300+"px";
           console.log(this.itemMessage,this.showList,this.activeType);
@@ -139,5 +140,17 @@
   .item-name,.item-avatar {
     display: inline-block;
     vertical-align: middle;
+  }
+
+  .active-item{
+    flex:1;
+    height: 24px;
+    line-height: 24px;
+    color: #059;
+    font-size: 20px;
+    padding-right: 6px;
+    list-style-type: none;
+    border-right: solid red 1px;
+    background-color: chartreuse;
   }
 </style>

@@ -66,6 +66,66 @@
           "name":"眼镜12",
           "avatar":"http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
           "price":41
+        },
+        {
+          "name":"帽子1",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":30
+        },
+        {
+          "name":"帽子2",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":31
+        },
+        {
+          "name":"帽子3",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":32
+        },
+        {
+          "name":"帽子4",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":33
+        },
+        {
+          "name":"帽子5",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":34
+        },
+        {
+          "name":"帽子6",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":35
+        },
+        {
+          "name":"帽子7",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":36
+        },
+        {
+          "name":"帽子8",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":37
+        },
+        {
+          "name":"帽子9",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":38
+        },
+        {
+          "name":"帽子10",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":39
+        },
+        {
+          "name":"帽子11",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":40
+        },
+        {
+          "name":"帽子12",
+          "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
+          "price":41
         }
       ]
     },

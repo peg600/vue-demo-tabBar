@@ -103,9 +103,7 @@
 
        </p>
     </div>
-
-      <tabBar :items="items" @show-list="showList" @hide-list="hideList"></tabBar>
-
+    <tabBar :items="items" @show-list="showList" @hide-list="hideList"></tabBar>
   </div>
 
 </template>
@@ -155,7 +153,6 @@ html,body {
   position: relative;
   width:100%;
   min-height: 100%;
-
 }
 
 p {

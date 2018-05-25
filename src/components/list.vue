@@ -55,7 +55,8 @@
   .wrapper {
     position: absolute;
     width: 100%;
-    margin-top: -250px;
+    top: 50px;
+    bottom: 0;
     overflow: hidden;
     box-sizing: border-box;
     background-color: red;
