@@ -1,17 +1,19 @@
 <template>
   <div class="tabBar-content" ref="tabBarContent">
-    <div class="wrapper" ref="itemWrapper">
-      <ul class="item-wrapper" v-if="items" ref="itemList">
-        <li class="item" :class="{'active-item': activeType === item_message.message.type}" v-for="(item_message,item,index) in items"
-            @click="showItemList($event,item_message)">
-          <div class="content">
-            <span class="item-name" >{{item_message.message.name}}</span>
-            <img class="item-avatar" v-if="item_message.message.avatar"
-               :src="item_message.message.avatar" height="20px" width="20px">
-          </div>
-        </li>
-      </ul>
-      <list :showList="showList" :itemMessage="itemMessage"></list>
+    <div class="wrapper">
+      <div ref="itemWrapper">
+        <ul class="item-wrapper" v-if="items" ref="itemList">
+          <li class="item" :class="{'active-item': activeType === item_message.message.type}" v-for="(item_message,item,index) in items"
+              @click="showItemList($event,item_message)">
+            <div class="content">
+              <span class="item-name" >{{item_message.message.name}}</span>
+              <img class="item-avatar" v-if="item_message.message.avatar"
+                   :src="item_message.message.avatar" height="20px" width="20px">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <list :showList="showList" :itemMessage="itemMessage" @touchmove.prevent></list>
     </div>
   </div>
 </template>
@@ -57,6 +59,7 @@
           this.$nextTick(() => {
             if (!this.itemScroll) {
               this.itemScroll = new BScroll(this.$refs.itemWrapper, {
+                bounceTime: 300,
                 scrollX: true,                        // 横向滚动
                 eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
               });

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" @touchmove.prevent>
     <div class="main">
        <p>
          {
@@ -100,7 +100,6 @@
          "avatar":"http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114"
          }
          },
-
        </p>
     </div>
     <tabBar :items="items" @show-list="showList" @hide-list="hideList"></tabBar>
@@ -149,7 +148,6 @@ html,body {
 }
 
 .wrapper {
-
   position: relative;
   width:100%;
   min-height: 100%;
@@ -160,7 +158,6 @@ p {
 }
 
 .main {
-
   background-color: green;
 }
 

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wrapper" v-if="showList" ref="listContent">
+  <div class="list-content">
+    <div class="wrapper" ref="outWrapper">
       <ul class="list-wrapper">
         <li class="list-item" v-for="(item,index) in itemMessage.goods" ref="listItem">
           <a class="content">
@@ -29,29 +29,42 @@
         }
       },
 
-      watch:{
+      watch: {
         "itemMessage"() {
           this.$nextTick(() => {
             this._initScroll();
           });
         }
       },
+      mounted() {
+        this.$nextTick(() => {
+          this._initScroll();
+        })
+      },
 
       methods:{
         _initScroll() {
-          if (!this.scroll) {
-            this.scroll = new BScroll(this.$refs.listContent, {
-              click: true
-            });
-          } else {
-            this.scroll.refresh();
-          }
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.scroll = new BScroll(this.$refs.outWrapper, {
+                preventDefault: true,
+                scrollY:true,
+              });
+            } else {
+              this.scroll.refresh();
+            }
+          })
         },
       }
     }
 </script>
 
 <style scoped>
+
+  .list-content {
+    overflow: hidden;
+  }
+
   .wrapper {
     position: absolute;
     width: 100%;
@@ -73,6 +86,7 @@
     text-align: center;
     list-style-type: none;
     flex: 1 1 33.33%;
+    padding-bottom: 30px;
   }
 
 
