@@ -1,159 +1,275 @@
 <template>
-  <div class="tabBar-content" ref="tabBarContent">
-    <div class="wrapper">
-      <div ref="itemWrapper">
-        <ul class="item-wrapper" v-if="items" ref="itemList">
-          <li class="item" :class="{'active-item': activeType === item_message.message.type}" v-for="(item_message,item,index) in items"
-              @click="showItemList($event,item_message)">
-            <div class="content">
-              <span class="item-name" >{{item_message.message.name}}</span>
-              <img class="item-avatar" v-if="item_message.message.avatar"
-                   :src="item_message.message.avatar" height="20px" width="20px">
-            </div>
-          </li>
-        </ul>
+  <div class="tab-wrapper" ref="tabWrapper" v-show="show">
+    <div class="tab-content" ref="itemWrapper">
+      <ul class="item-list" v-if="items" ref="itemList">
+        <li class="clear">
+          <img  class="img-clear" :src="dsr>2 ? require('./关闭@2x.png') : require('./关闭@3x.png')">
+        </li>
+        <li class="item" ref="ccc" :class="{'active-item': activeType === item_message.id}"
+            v-for="(item_message,item,index) in items" @click="showItemList($event,item_message,index)">
+          <div class="item-content">
+            <span class="item-name" >
+              {{item_message.name}}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="goods-content">
+      <div class="goods-wrapper" ref="outWrapper">
+        <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
+          <div class="goods-type" v-for="(item_message,item_id,index) in items" ref="goodsType" :style="screenWidth" >
+            <ul class="goods-list" :class="item_id">
+              <li class="goods-item" v-for="(goods,$goodsindex) in listArray[index+1]" @click="selectitem($event,goods,index)">
+                <a class="goods-link">
+                  <!--<span class="item-name">{{item.name}}</span>-->
+                  <img :src="goods.goods_thumb" alt="item.name" class="item-img"
+                       height="75px" width="75px" >
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <list :showList="showList" :itemMessage="itemMessage" @touchmove.prevent></list>
     </div>
   </div>
 </template>
 <script>
   import BScroll from "better-scroll"
-  import list from "./list.vue"
+  import axios from "axios"
 
   export default {
     name: "tabBar",
     props:{
+      listArray:{
+        type:Array
+      },
+      show:{
+        type:Boolean
+      },
       items:{
         type:Object
-      }
+      },
+      dsr:{
+        type:Number
+      },
     },
     data() {
       return {
-        showList:false,
-        activeType:0,
-        itemMessage:{}
+        activeType:1,
+        itemMessage:{},
+        listWidth:"",
+        screenWidth:"",
+        fullWidth:0,
+        selected:[],
+        scrollX:0,
+        distance:[],
+        length:0
       }
     },
-    watch: {
+
+    created() {
+
+    },
+
+    watch:{
       "items"() {
         this.$nextTick(() => {
           this._initScroll();
-        });
+          this._calculateWidth();
+        })
       }
     },
+
     mounted() {
-      this.$nextTick(() => {
-        this._initScroll();
-      });
+
     },
+
     methods:{
       _initScroll() {
         if (this.items) {
           let itemsArray = Object.keys(this.items);
-          let screenWidth = document.body.scrollWidth;
-          let margin = 6;
-          let itemWidth = (screenWidth-2*margin)/4;
-          let width = (itemWidth + margin) * itemsArray.length - margin;    // 计算所有图片总宽度，即ul宽度
+          this.fullWidth = document.body.scrollWidth;
+          this.screenWidth = `width: ${document.body.scrollWidth}px;`;
+          let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
+          this.length = itemsArray.length;
           this.$refs.itemList.style.width = width + "px";    // 为图片列表设置宽度，只有宽度大于容器才能滚动
+          this.listWidth = `width: ${this.fullWidth * (this.length)}px`;
           this.$nextTick(() => {
             if (!this.itemScroll) {
               this.itemScroll = new BScroll(this.$refs.itemWrapper, {
                 bounceTime: 300,
+                click: true,
                 scrollX: true,                        // 横向滚动
                 eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
               });
             } else {
               this.itemScroll.refresh();
             }
-          });
+            if (!this.goodsScroll) {
+              this.goodsScroll = new BScroll(this.$refs.outWrapper, {
+                bounceTime: 300,
+                click: true,
+                probeTimer:3,
+                scrollX: true,                        // 横向滚动
+                eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
+              });
+            } else {
+              this.goodsScroll.refresh();
+            }
+
+            }
+          );
         }
       },
-      showItemList(e,item_message) {
-        if(this.activeType && this.activeType === item_message.message.type) {
-          this.showList = false;           // 若点击的是展示状态的tab，则取消展示状态并收起列表
-          this.activeType = 0;
-          this.itemMessage = {};
-          this.$emit("hide-list");
-          this.$refs.tabBarContent.style.height = 50+"px";
-          console.log(this.itemMessage,this.showList,this.activeType);
-        }else{                              // 若点击非展示状态的tab，将其标记为展示中并弹出列表
-          this.activeType = item_message.message.type;
-          this.showList = true;
-          this.itemMessage = item_message;// 准备将itemMessage传给list组件
-          this.$emit("show-list");
-          this.$refs.tabBarContent.style.height = 300+"px";
-          console.log(this.itemMessage,this.showList,this.activeType);
+
+      _calculateWidth() {
+        let length = this.length;
+        let width = 0;
+        this.distance.push(width);
+        //console.log(length);
+        for(let i=0;i<length;i++) {
+          width += this.fullWidth;
+          this.distance.push(width);
         }
-      }
+        //console.log(this.distance)
+      },
+
+      showItemList(e,item_message,index) {
+        this.activeType = item_message.id;
+        let goodsList = this.$refs.goodsType;
+        let el = goodsList[index];
+        this.goodsScroll.scrollToElement(el,300);
+      },
+
+
+
     },
+
+    computed:{
+
+    },
+
     components:{
-      list
+
     }
   }
 </script>
 
 <style scoped>
 
-  .tabBar-content {
+  .tab-wrapper {
     position: fixed;
-    left: 0;
     bottom: 0;
     width: 100%;
-    height: 50px;
-    background-color: aqua;
-  }
-
-  .wrapper {
-    width: 100%;
+    height: 230px;
+    box-sizing: border-box;
+    transform: translate(0,0%);
     overflow: hidden;
     white-space: nowrap;
+    z-index: 30;
+    background-color: rgba(0,0,0,.3);
   }
 
-  .item-wrapper {
-    display: flex;
+  .tab-content {
+    height: 40px;
+    width: 100%;
+  }
+
+  .item-list {
     font-size: 0;
-    margin-top: 10px;
     padding-left: 0;
+    color: rgb(255,255,255);
     box-sizing: border-box;
   }
 
-  .item {
-    flex:1;
-    height: 24px;
-    line-height: 24px;
-    color: #059;
-    font-size: 20px;
-    padding-right: 6px;
+  .clear {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 40px;
+    text-align: center;
+    font-size: 15px;
     list-style-type: none;
-    border-right: solid red 1px;
+    vertical-align: middle;
   }
+
+  .img-clear {
+    height: 20px;
+    width: 20px;
+    margin: 0 auto;
+  }
+
+  .item {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 67px;
+    text-align: center;
+    font-size: 15px;
+    list-style-type: none;
+  }
+
+
 
   .item:last-child {
     margin-right: 0;
     border-right: none;
   }
 
-  .content {
-    text-align: center;
+  .item-name,.item-avatar {
+
+  }
+
+  .active-item{
+    color: rgb(255,189,69);
+  }
+
+
+  .goods-content {
+    overflow: hidden;
+  }
+
+  .goods-wrapper {
+    position: absolute;
+    width: 100%;
+    top: 40px;
+    bottom: 0;
+    overflow: hidden;
+    font-size: 0;
+    border-top: 2px solid rgba(242,242,242,.15);
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,.3);
+  }
+
+  .goods-type-wrapper {
+
+  }
+
+  .goods-type {
+    display: inline-block;
+    width: 375px;
+    min-height: 188px;
     margin: 0;
     padding: 0;
   }
 
-  .item-name,.item-avatar {
-    display: inline-block;
-    vertical-align: middle;
+  .goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
   }
 
-  .active-item{
-    flex:1;
-    height: 24px;
-    line-height: 24px;
-    color: #059;
-    font-size: 20px;
-    padding-right: 6px;
+  .goods-item {
+    text-align: center;
     list-style-type: none;
-    border-right: solid red 1px;
-    background-color: chartreuse;
+    flex: 0 75px;
   }
+
+  .selected-item {
+    border-radius: 10px;
+    border: 2px solid rgb(255,189,69);
+  }
+
 </style>

@@ -108,6 +108,7 @@
           response = response.data;
           if (response.errno === ERR_OK) {
             this.goods = response.data;
+            console.log(this.goods);
             this.$nextTick(() => {    // $nextTick会在下次DOM更新循环结束之后执行延迟回调，即this._initScroll会在DOM更新
               this._initScroll();     // 后执行，避免初期渲染时就执行导致$refs中的内容无法访问，操作相关原生dom的时候要
               this._calculateHeight();// 在vue.$nextTick()中进行

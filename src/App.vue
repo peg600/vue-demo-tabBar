@@ -1,139 +1,75 @@
 <template>
-  <div class="wrapper" @touchmove.prevent>
-    <div class="main">
-       <p>
-         {
-         "name":"帽子4",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":33
-         },
-         {
-         "name":"帽子5",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":34
-         },
-         {
-         "name":"帽子6",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":35
-         },
-         hats":{
-         "message":{
-         "type":2,
-         "name":"帽子",
-         "avatar":"http://fuss10.elemecdn.com/c/6b/29e3d29b0db63d36f7c500bca31d8jpeg.jpeg?imageView2/1/w/114/h/114"
-         },
-         "goods":[
-         {
-         "name":"帽子1",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":30
-         },
-         {
-         "name":"帽子2",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":31
-         },
-         {
-         "name":"帽子3",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":32
-         },
-         {
-         "name":"帽子4",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":33
-         },
-         {
-         "name":"帽子5",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":34
-         },
-         {
-         "name":"帽子6",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":35
-         },
-         {
-         "name":"帽子7",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":36
-         },
-         {
-         "name":"帽子8",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":37
-         },
-         {
-         "name":"帽子9",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":38
-         },
-         {
-         "name":"帽子10",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":39
-         },
-         {
-         "name":"帽子11",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":40
-         },
-         {
-         "name":"帽子12",
-         "avatar":"http://fuss10.elemecdn.com/f/28/a51e7b18751bcdf871648a23fd3b4jpeg.jpeg?imageView2/1/w/114/h/114",
-         "price":41
-         }
-         ]
-         },
-         "earrings":{
-         "message":{
-         "type":3,
-         "name":"耳环",
-         "avatar":"http://fuss10.elemecdn.com/d/b9/bcab0e8ad97758e65ae5a62b2664ejpeg.jpeg?imageView2/1/w/114/h/114"
-         }
-         },
-         "hairpins":{
-         "message":{
-         "type":4,
-         "name":"发卡",
-         "avatar":"http://fuss10.elemecdn.com/7/72/9a580c1462ca1e4d3c07e112bc035jpeg.jpeg?imageView2/1/w/114/h/114"
-         }
-         },
-       </p>
+  <div class="wrapper">
+    <div class="content">
+      <navBar :dpr="dpr" @show-list="showList" :show="show"></navBar>
+      <div class="main">
+      </div>
     </div>
-    <tabBar :items="items" @show-list="showList" @hide-list="hideList"></tabBar>
+    <buttons :dpr="dpr" @show-list="showList" :show="show"></buttons>
+    <tabBar :items="items" :show="show" :listArray="listArray"></tabBar>
   </div>
 
 </template>
 
 <script>
 import axios from "axios"
+import navBar from "./components/navBar.vue"
+import buttons from "./components/buttons.vue"
 import tabBar from "./components/tabBar.vue"
 
 export default {
   name: 'App',
   data() {
     return {
+      dpr:1,
       items:{},
-      response:{}
+      response:{},
+      show:false,
+      listArray:[],
     }
   },
+
   created() {
-    axios.get("../static/test.json").then((response) => {
+    axios.get("../static/standard1.json").then((response) => {      //@touchmove.prevent
       response = response.data;
-      this.items = response.items;
-    })
+      this.items = response.list;
+    });
+    this.dpr=window.devicePixelRatio;
+
   },
+
+  mounted() {
+
+  },
+
   methods:{
     showList() {
-
+      this.show = true;
+      let address = "";
+      let itemsAddress = Object.keys(this.items);
+      let length = itemsAddress.length;
+      for (let i = 1;i<length+1;i++) {
+        address = `../static/${i}.json`;
+        axios.get(address).then((response) => {
+          if (response) {
+            response = response.data.list;
+            this.listArray[i] = response;
+          }
+        });
+      }
     },
     hideList() {
-      console.log("hide")
+      this.show = false;
     }
   },
+
+  computed:{
+
+  },
+
   components:{
+    navBar,
+    buttons,
     tabBar
   }
 }
@@ -145,20 +81,32 @@ html,body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-image: url("./background.jpg");
 }
 
 .wrapper {
-  position: relative;
-  width:100%;
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
 }
 
-p {
-  word-wrap: break-word;
+.content {
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  max-height: 100%;
+  width: 100%;
+  flex-direction: column;
 }
 
 .main {
-  background-color: green;
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: auto;
+  z-index: 5;
 }
 
 
