@@ -5,7 +5,7 @@
         <li class="clear">
           <img  class="img-clear" :src="dsr>2 ? require('./关闭@2x.png') : require('./关闭@3x.png')">
         </li>
-        <li class="item" ref="ccc" :class="{'active-item': activeType === item_message.id}"
+        <li class="item"  :class="{'active-item': activeType === item_message.id}"
             v-for="(item_message,item,index) in items" @click="showItemList($event,item_message,index)">
           <div class="item-content">
             <span class="item-name" >
@@ -280,11 +280,11 @@
     border-radius: 10px;
     border: 2px solid rgb(255,189,69);
     overflow: hidden;
+    height: 75px;
   }
 
   .selected-item img{
-    height: 73px;
-    width: 73px;
+    border-radius: 10px;
   }
 
 </style>
