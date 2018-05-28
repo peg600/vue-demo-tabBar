@@ -18,9 +18,12 @@
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
-          <div class="goods-type" v-for="(item_message,item_id,index) in items" ref="goodsType" :style="screenWidth" >
+          <div class="goods-type" v-for="(item_message,item_id,index) in items"
+               ref="goodsType" :style="screenWidth" >
             <ul class="goods-list" :class="item_id">
-              <li class="goods-item" v-for="(goods,$goodsindex) in listArray[index+1]" @click="selectitem($event,goods,index)">
+              <li class="goods-item" v-for="(goods,$goodsindex) in listArray[index+1]"
+                  @click="selectItem(goods,$goodsindex)"
+                  :class="{'selected-item': selectedindex===$goodsindex}">
                 <a class="goods-link">
                   <!--<span class="item-name">{{item.name}}</span>-->
                   <img :src="goods.goods_thumb" alt="item.name" class="item-img"
@@ -62,6 +65,7 @@
         screenWidth:"",
         fullWidth:0,
         selected:[],
+        selectedindex:-1,
         scrollX:0,
         distance:[],
         length:0
@@ -106,13 +110,14 @@
             } else {
               this.itemScroll.refresh();
             }
+
+
             if (!this.goodsScroll) {
               this.goodsScroll = new BScroll(this.$refs.outWrapper, {
                 bounceTime: 300,
                 click: true,
                 probeTimer:3,
-                scrollX: true,                        // 横向滚动
-                eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
+                scrollX: true,
               });
             } else {
               this.goodsScroll.refresh();
@@ -142,7 +147,10 @@
         this.goodsScroll.scrollToElement(el,300);
       },
 
-
+      selectItem(goods,$goodsindex) {
+        this.selectedindex = $goodsindex;
+        console.log(this.selectedindex,$goodsindex)
+      }
 
     },
 
@@ -268,8 +276,15 @@
   }
 
   .selected-item {
+    box-sizing: border-box;
     border-radius: 10px;
     border: 2px solid rgb(255,189,69);
+    overflow: hidden;
+  }
+
+  .selected-item img{
+    height: 73px;
+    width: 73px;
   }
 
 </style>
