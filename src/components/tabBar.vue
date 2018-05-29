@@ -5,6 +5,10 @@
         <li class="clear">
           <img  class="img-clear" :src="dsr>2 ? require('./关闭@2x.png') : require('./关闭@3x.png')">
         </li>
+        <li class="command" :class="{'active-item': activeType === -1}"
+            @click="showItemList($event)">
+          热销
+        </li>
         <li class="item"  :class="{'active-item': activeType === item_message.id}"
             v-for="(item_message,item,index) in items" @click="showItemList($event,item_message,index)">
           <div class="item-content">
@@ -20,9 +24,9 @@
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
           <div class="goods-type" v-for="(itemType,itemTypeIndex) in items"
-               ref="goodsType" :style="screenWidth"  @click="aaa(itemTypeIndex)">
+               ref="goodsType" :style="screenWidth" :key="itemType.id">
             <ul class="goods-list">
-              <div class="item-page" v-for="(page,pageIndex) in listArray[itemTypeIndex+2]">
+              <div class="item-page" v-for="(page,pageIndex) in listArray[itemType.id]">
                 <li class="goods-item" v-for="(goods,$goodsindex) in page"
                     @click="selectItem(goods,$goodsindex)"
                     :class="{'selected-item': selectedindex===$goodsindex}">
@@ -68,7 +72,7 @@
     },
     data() {
       return {
-        activeType:1,
+        activeType:-1,
         itemMessage:{},
         itemListWidth:"",
         listWidth:"",
@@ -83,10 +87,10 @@
     },
 
     created() {
-      this.$parent.getAjax();
       this.$nextTick(() => {
         this.setWidth();
-
+        this._initScroll();
+        this._calculateWidth();
       })
     },
 
@@ -173,7 +177,13 @@
       },
 
       showItemList(e,item_message,index) {
-        this.activeType = item_message.id;
+        if(e.currentTarget.className === "command"||"command active-item") {
+          this.activeType = -1;
+          console.log(e.currentTarget.className,111)
+        }else{
+          this.activeType = item_message.id;
+          console.log(e.currentTarget.className,222)
+        }
         let goodsList = this.$refs.goodsType;
         let el = goodsList[index];
         this.goodsScroll.scrollToElement(el,300);
@@ -238,6 +248,16 @@
     height: 20px;
     width: 20px;
     margin: 0 auto;
+  }
+
+  .command {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 67px;
+    text-align: center;
+    font-size: 15px;
+    list-style-type: none;
   }
 
   .item {

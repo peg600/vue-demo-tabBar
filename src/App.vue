@@ -61,7 +61,7 @@ export default {
             _vue.listArray[i+2] = [];
             //console.log(_vue.listArray)
             let secondUrl = `${_vue.firstUrl}&a=getproducts&id=${i + 2}`;
-            for (let j = 1; j < 4; j++) {
+            for (let j = 1; j < 20; j++) {
               let itemUrl = `https://www.zhaoxinzx.top/server/?c=category&a=getproducts&id=${i+2}&page=${j}`;
               $.ajax({
                 url: itemUrl,
@@ -85,7 +85,7 @@ export default {
 
     showList() {
       this.show = true;
-      this.getAjax();
+
       console.log(this.items);
       console.log(this.listArray)
       /*let address = "";
