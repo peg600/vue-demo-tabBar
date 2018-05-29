@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-wrapper" ref="tabWrapper" v-show="show && listArray && items">
+  <div class="tab-wrapper" ref="tabWrapper" v-show="show">
     <div class="tab-content" ref="itemWrapper">
       <ul class="item-list" ref="itemList" :style="this.itemListWidth">
         <li class="clear">
@@ -83,6 +83,7 @@
     },
 
     created() {
+      this.$parent.getAjax();
       this.$nextTick(() => {
         this.setWidth();
 
