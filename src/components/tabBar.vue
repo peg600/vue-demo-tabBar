@@ -15,9 +15,7 @@
         </li>
       </ul>
     </div>
-    <div class="test" v-for="aaa in listArray[2][1]">
-      <p class="bbb">{{aaa.goods_name}}</p>
-    </div>
+
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">

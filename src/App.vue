@@ -71,6 +71,7 @@ export default {
         }
       }
     });
+
     this.dpr=window.devicePixelRatio;
   },
 
@@ -125,7 +126,7 @@ html,body {
   padding: 0;
   overflow: hidden;
   box-sizing: border-box;
-  background-image: url("./background.jpg");
+  background-image: url("../static/background.jpg");
 }
 
 .wrapper {
