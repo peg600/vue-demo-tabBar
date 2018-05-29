@@ -1,7 +1,7 @@
 <template>
-  <div class="tab-wrapper" ref="tabWrapper" v-if="show">
+  <div class="tab-wrapper" ref="tabWrapper" v-show="show && listArray && items">
     <div class="tab-content" ref="itemWrapper">
-      <ul class="item-list" v-if="items" ref="itemList">
+      <ul class="item-list" ref="itemList" :style="this.itemListWidth">
         <li class="clear">
           <img  class="img-clear" :src="dsr>2 ? require('./关闭@2x.png') : require('./关闭@3x.png')">
         </li>
@@ -15,11 +15,14 @@
         </li>
       </ul>
     </div>
+    <div class="test" v-for="aaa in listArray[2][1]">
+      <p class="bbb">{{aaa.goods_name}}</p>
+    </div>
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
           <div class="goods-type" v-for="(itemType,itemTypeIndex) in items"
-               ref="goodsType" :style="screenWidth" >
+               ref="goodsType" :style="screenWidth"  @click="aaa(itemTypeIndex)">
             <ul class="goods-list">
               <div class="item-page" v-for="(page,pageIndex) in listArray[itemTypeIndex+2]">
                 <li class="goods-item" v-for="(goods,$goodsindex) in page"
@@ -32,7 +35,6 @@
                   </a>
                 </li>
               </div>
-
             </ul>
           </div>
         </div>
@@ -70,6 +72,7 @@
       return {
         activeType:1,
         itemMessage:{},
+        itemListWidth:"",
         listWidth:"",
         screenWidth:"",
         fullWidth:0,
@@ -81,66 +84,81 @@
       }
     },
 
-    /*created() {
-      if(this.items) {
-        console.log(this.items[2])
-        for(let key in this.items){
-          console.log(this.items[key]);
+    created() {
+      this.$nextTick(() => {
+        this.setWidth();
 
-        }
-      }
-    },*/
+      })
+    },
 
     watch:{
-      "items"() {
-        this.$nextTick(() => {
-          this._initScroll();
-          this._calculateWidth();
-        })
+      "listArray"() {
+        this._initScroll();
+        this._calculateWidth();
       }
     },
 
     mounted() {
+      setTimeout(() => {
+        this._initScroll();
 
+      }, 20);
     },
 
     methods:{
+      aaa(itemTypeIndex) {
+        console.log(123,itemTypeIndex)
+      },
+      setWidth() {
+        let itemsArray = Object.keys(this.items);
+        this.fullWidth = document.body.scrollWidth;
+        this.screenWidth = `width: ${document.body.scrollWidth}px;`;
+        let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
+        this.length = itemsArray.length;
+            // 为图片列表设置宽度，只有宽度大于容器才能滚动
+        this.listWidth = `width: ${this.fullWidth * (this.length)}px`;
+        this.itemListWidth = `width: ${width}px`;
+      },
+
       _initScroll() {
-        if (this.items) {
-          let itemsArray = Object.keys(this.items);
-          this.fullWidth = document.body.scrollWidth;
-          this.screenWidth = `width: ${document.body.scrollWidth}px;`;
-          let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
-          this.length = itemsArray.length;
-          this.$refs.itemList.style.width = width + "px";    // 为图片列表设置宽度，只有宽度大于容器才能滚动
-          this.listWidth = `width: ${this.fullWidth * (this.length)}px`;
-          this.$nextTick(() => {
-            if (!this.itemScroll) {
-              this.itemScroll = new BScroll(this.$refs.itemWrapper, {
-                bounceTime: 300,
-                click: true,
-                scrollX: true,                        // 横向滚动
-                eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
-              });
-            } else {
-              this.itemScroll.refresh();
-            }
+        this.$nextTick(() => {
+          if (this.items) {
+            /*let itemsArray = Object.keys(this.items);
+            this.fullWidth = document.body.scrollWidth;
+            this.screenWidth = `width: ${document.body.scrollWidth}px;`;
+            let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
+            this.length = itemsArray.length;
+            this.$refs.itemList.style.width = width + "px";    // 为图片列表设置宽度，只有宽度大于容器才能滚动
+            this.listWidth = `width: ${this.fullWidth * (this.length)}px`;*/
+            this.$nextTick(() => {
+                if (!this.itemScroll) {
+                  this.itemScroll = new BScroll(this.$refs.itemWrapper, {
+                    bounceTime: 300,
+                    click: true,
+                    scrollX: true,                        // 横向滚动
+                    eventPassthrough: "vertical"        // 在横向滚动时忽略纵向滚动
+                  });
+                } else {
+                  this.itemScroll.refresh();
+                }
 
 
-            if (!this.goodsScroll) {
-              this.goodsScroll = new BScroll(this.$refs.outWrapper, {
-                bounceTime: 300,
-                click: true,
-                probeTimer:3,
-                scrollX: true,
-              });
-            } else {
-              this.goodsScroll.refresh();
-            }
+                if (!this.goodsScroll) {
+                  this.goodsScroll = new BScroll(this.$refs.outWrapper, {
+                    bounceTime: 300,
+                    click: true,
+                    probeTimer:3,
+                    scrollX: true,
+                  });
+                } else {
+                  this.goodsScroll.refresh();
+                }
 
-            }
-          );
-        }
+              }
+            );
+          }
+        });
+
       },
 
       _calculateWidth() {
@@ -302,4 +320,10 @@
     border-radius: 10px;
   }
 
+
+  .test {
+    width: 200px;
+    height: 200px;
+    z-index: 500;
+  }
 </style>

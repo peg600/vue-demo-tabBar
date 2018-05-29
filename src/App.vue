@@ -44,7 +44,7 @@ export default {
         _vue.items = data.list;
         let itemsArray = Object.keys(_vue.items);
         _vue.firstLength = itemsArray.length;
-        console.log(_vue.items);
+        //console.log(_vue.items);
       },
       complete:function(){
         for (let i = 0; i < _vue.firstLength; i++) {
