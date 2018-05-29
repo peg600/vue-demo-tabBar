@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-wrapper" ref="tabWrapper" v-show="show">
+  <div class="tab-wrapper" ref="tabWrapper" v-if="show">
     <div class="tab-content" ref="itemWrapper">
       <ul class="item-list" v-if="items" ref="itemList">
         <li class="clear">
@@ -18,18 +18,21 @@
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
-          <div class="goods-type" v-for="(item_message,item_id,index) in items"
+          <div class="goods-type" v-for="(itemType,itemTypeIndex) in items"
                ref="goodsType" :style="screenWidth" >
-            <ul class="goods-list" :class="item_id">
-              <li class="goods-item" v-for="(goods,$goodsindex) in listArray[index+1]"
-                  @click="selectItem(goods,$goodsindex)"
-                  :class="{'selected-item': selectedindex===$goodsindex}">
-                <a class="goods-link">
-                  <!--<span class="item-name">{{item.name}}</span>-->
-                  <img :src="goods.goods_thumb" alt="item.name" class="item-img"
-                       height="75px" width="75px" >
-                </a>
-              </li>
+            <ul class="goods-list">
+              <div class="item-page" v-for="(page,pageIndex) in listArray[itemTypeIndex+2]">
+                <li class="goods-item" v-for="(goods,$goodsindex) in page"
+                    @click="selectItem(goods,$goodsindex)"
+                    :class="{'selected-item': selectedindex===$goodsindex}">
+                  <a class="goods-link">
+                    <!--<span class="item-name">{{item.name}}</span>-->
+                    <img :src="goods.goods_thumb" alt="item.name" class="item-img"
+                         height="75px" width="75px" >
+                  </a>
+                </li>
+              </div>
+
             </ul>
           </div>
         </div>
@@ -56,6 +59,12 @@
       dsr:{
         type:Number
       },
+      firstUrl:{
+        type:String
+      },
+      firstLength:{
+        type:Number
+      }
     },
     data() {
       return {
@@ -72,9 +81,15 @@
       }
     },
 
-    created() {
+    /*created() {
+      if(this.items) {
+        console.log(this.items[2])
+        for(let key in this.items){
+          console.log(this.items[key]);
 
-    },
+        }
+      }
+    },*/
 
     watch:{
       "items"() {
