@@ -23,6 +23,17 @@
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
+          <div class="goods-type">
+            <ul class="goods-list">
+              <div class="item-page">
+                <li class="goods-item">
+                  <a href="#" class="goods-link">
+                    <img src="" class="item-img">
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </div>
           <div class="goods-type" v-for="(itemType,itemTypeIndex) in items"
                ref="goodsType" :style="screenWidth" :key="itemType.id">
             <ul class="goods-list">
@@ -30,7 +41,7 @@
                 <li class="goods-item" v-for="(goods,$goodsindex) in page"
                     @click="selectItem(goods,$goodsindex)"
                     :class="{'selected-item': selectedindex===$goodsindex}">
-                  <a class="goods-link">
+                  <a href="#" class="goods-link">
                     <!--<span class="item-name">{{item.name}}</span>-->
                     <img :src="goods.goods_thumb" alt="item.name" class="item-img"
                          height="75px" width="75px" >
@@ -90,22 +101,20 @@
       this.$nextTick(() => {
         this.setWidth();
         this._initScroll();
-        this._calculateWidth();
+        //this._calculateWidth();
       })
     },
 
     watch:{
       "listArray"() {
+        this.setWidth();
         this._initScroll();
-        this._calculateWidth();
+        //this._calculateWidth();
       }
     },
 
     mounted() {
-      setTimeout(() => {
-        this._initScroll();
 
-      }, 20);
     },
 
     methods:{
@@ -114,12 +123,14 @@
       },
       setWidth() {
         let itemsArray = Object.keys(this.items);
-        this.fullWidth = document.body.scrollWidth;
-        this.screenWidth = `width: ${document.body.scrollWidth}px;`;
-        let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
         this.length = itemsArray.length;
+        this.fullWidth = document.body.scrollWidth;
+        this.screenWidth = `width: ${this.fullWidth}px;`;
+        let width = 67 * (itemsArray.length+1) + 40;    // 计算所有图片总宽度，即ul宽度
+
             // 为图片列表设置宽度，只有宽度大于容器才能滚动
-        this.listWidth = `width: ${this.fullWidth * (this.length)}px`;
+        this.listWidth = `width: ${this.fullWidth * (this.length+1)}px`;
+        console.log(this.listWidth);
         this.itemListWidth = `width: ${width}px`;
       },
 

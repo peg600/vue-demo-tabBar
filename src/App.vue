@@ -6,7 +6,8 @@
       </div>
     </div>
     <buttons :dpr="dpr" @show-list="showList" :show="show"></buttons>
-    <tabBar :items="items" :show="show" :listArray="listArray" :firstUrl="firstUrl" :firstLength="firstLength"></tabBar>
+    <tabBar :items="items" :show="show" :listArray="listArray" :firstUrl="firstUrl" :firstLength="firstLength"
+    ref="tabBarRef"></tabBar>
   </div>
 
 </template>
@@ -84,8 +85,8 @@ export default {
     },
 
     showList() {
+      this.$refs.tabBarRef.setWidth();
       this.show = true;
-
       console.log(this.items);
       console.log(this.listArray)
       /*let address = "";
