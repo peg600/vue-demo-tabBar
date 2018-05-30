@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="content">
       <navBar :dpr="dpr" @show-list="showList" :show="show"></navBar>
-      <div class="main">
+      <div class="main" @click="this.hideList">
       </div>
     </div>
     <buttons :dpr="dpr" @show-list="showList" :show="show"></buttons>
@@ -48,7 +48,7 @@ export default {
       $.ajax({
         url:_vue.firstUrl,
         type:'GET', //GET
-        async:true, //或false,是否异步
+        async:false, //或false,是否异步
         timeout:5000, //超时时间
         dataType:'json', //返回的数据格式：
         success:function(data,textStatus,jqXHR) {
@@ -72,8 +72,8 @@ export default {
                 dataType: 'json', //返回的数据格式：
                 success: function (data2, textStatus, jqXHR) {
                   if(data2.list[0]) {
-                    let temporary = data2.list;
-                    _vue.renderList(i,j,temporary);
+                    let temporary = data2.list;           // data2为每个page数组，内含商品对象
+                    _vue.renderList(i,j,temporary)
                   }
                 },
                 complete: function () {}
@@ -82,6 +82,7 @@ export default {
           }
         }
       });
+      console.log(this.listArray)
     },
 
     showList() {

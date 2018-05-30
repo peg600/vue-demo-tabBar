@@ -10,7 +10,8 @@
           热销
         </li>
         <li class="item"  :class="{'active-item': activeType === item_message.id}"
-            v-for="(item_message,item,index) in items" @click="showItemList($event,item_message,index)">
+            v-for="(item_message,item,index) in items" :key="item_message.id"
+            @click="showItemList($event,item_message,index)">
           <div class="item-content">
             <span class="item-name" >
               {{item_message.name}}
@@ -23,12 +24,12 @@
     <div class="goods-content">
       <div class="goods-wrapper" ref="outWrapper">
         <div class="goods-type-wrapper" ref="innerWrapper" :style="this.listWidth">
-          <div class="goods-type">
-            <ul class="goods-list">
+          <div class="goods-type" :style="screenWidth">
+            <ul class="goods-list" :style="screenWidth">
               <div class="item-page">
                 <li class="goods-item">
                   <a href="#" class="goods-link">
-                    <img src="" class="item-img">
+                    <div class="item-img"></div>
                   </a>
                 </li>
               </div>
@@ -36,8 +37,8 @@
           </div>
           <div class="goods-type" v-for="(itemType,itemTypeIndex) in items"
                ref="goodsType" :style="screenWidth" :key="itemType.id">
-            <ul class="goods-list">
-              <div class="item-page" v-for="(page,pageIndex) in listArray[itemType.id]">
+            <ul class="goods-list" :style="screenWidth">
+              <div class="item-page" v-for="(page,pageIndex) in listArray[itemType.id]" :key="pageIndex">
                 <li class="goods-item" v-for="(goods,$goodsindex) in page"
                     @click="selectItem(goods,$goodsindex)"
                     :class="{'selected-item': selectedindex===$goodsindex}">
@@ -118,9 +119,7 @@
     },
 
     methods:{
-      aaa(itemTypeIndex) {
-        console.log(123,itemTypeIndex)
-      },
+
       setWidth() {
         let itemsArray = Object.keys(this.items);
         this.length = itemsArray.length;
@@ -314,7 +313,7 @@
   }
 
   .goods-type-wrapper {
-
+    vertical-align: top;
   }
 
   .goods-type {
@@ -323,13 +322,19 @@
     min-height: 188px;
     margin: 0;
     padding: 0;
+    vertical-align: top;
   }
 
   .goods-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
     margin: 0;
     padding: 0;
+  }
+
+  .item-page {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .goods-item {
