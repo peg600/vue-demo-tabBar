@@ -1,6 +1,6 @@
 # holo_vue_li
 
-> A Vue.js project
+> 基于vue的试戴页面,仅测试用
 
 ## Build Setup
 
